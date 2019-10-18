@@ -29,14 +29,15 @@ android {
         String osName = org.gradle.internal.os.OperatingSystem.current().getName()
         if (org.gradle.internal.os.OperatingSystem.current().isLinux()) {
             commandLine "$ndkDir/ndk-build", '-C', file("$projectDir").absolutePath
+        } else if (org.gradle.internal.os.OperatingSystem.current().isMacOsX()) {
+            commandLine "$ndkDir/ndk-build", '-C', file("$projectDir").absolutePath
         } else if (org.gradle.internal.os.OperatingSystem.current().isUnix()) {
+            logger.error("ndk-build command line not defined for Unix")
             //TODO consider UNIX build
         } else if (org.gradle.internal.os.OperatingSystem.current().isWindows()) {
             commandLine "$ndkDir/ndk-build.cmd", '-C', file("$projectDir").absolutePath
-        } else if (org.gradle.internal.os.OperatingSystem.current().isMacOsX()) {
-            //TODO consider OSX build
         } else {
-            //unknown OS...Ooops...
+            logger.error("Unknown OS")
         }
     }
 
